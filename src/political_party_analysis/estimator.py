@@ -11,7 +11,16 @@ class DensityEstimator:
 
     def __init__(self, data: pd.DataFrame, dim_reducer, high_dim_feature_names):
         self.data = data
-        self.dim_reducer_model = dim_reducer.model
+        self.dim_reducer_model = dim_reducer
         self.feature_names = high_dim_feature_names
 
+        from sklearn.mixture import GaussianMixture
+        self.model = GaussianMixture(n_components=10)
+        self.model.fit(self.data)
+
     ##### YOUR CODE GOES HERE #####
+    def sample(self):
+        return self.model.sample(10)
+
+    def map_back(self):
+        return self.model.map_back(self.sample)
